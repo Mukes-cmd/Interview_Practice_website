@@ -76,7 +76,10 @@ Score matchScore from 0-100 based on how closely the candidate fits the job. Be 
 }
 
 async function generatePdfFromhtml(htmlContent) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/chromium",
+  args: ["--no-sandbox", "--disable-setuid-sandbox"]
+});
   try {
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" });
